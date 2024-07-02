@@ -271,8 +271,18 @@ else
     sleep 1
 fi
 
-sed -i "s/user_pref(\"browser.startup.homepage\", \"file:\/\/\/home\/z0mbi3\/.local\/share\/startup-page\/index.html\")/user_pref(\"browser.startup.homepage\", \"file:\/\/\/home\/$USER\/.local\/share\/startup-page\/index.html\")/" "$HOME"/.mozilla/firefox/*.default-release/user.js
-sed -i "s/name: 'gh0stzk'/name: '$USER'/" "$HOME"/.local/share/startup-page/config.js
+HOMEPAGE_PATH="file://$HOME/.local/share/startup-page/index.html"
+
+FIREFOX_PROFILE_DIR=$(find "$HOME/.mozilla/firefox" -maxdepth 1 -type d -name "*.default-release" | head -n 1)
+
+if [ -z "$FIREFOX_PROFILE_DIR" ]; then
+    echo "No Firefox profile found. Skipped Firefox Home page rice."
+    exit 1
+fi
+
+FIREFOX_PROFILE_PATH="$FIREFOX_PROFILE_DIR/user.js"
+
+echo "user_pref(\"browser.startup.homepage\", \"$HOMEPAGE_PATH\");" > "$FIREFOX_PROFILE_PATH"
 cp -f "$HOME"/dotfiles/home/.zshrc "$HOME"
 fc-cache -rv >/dev/null 2>&1
 
