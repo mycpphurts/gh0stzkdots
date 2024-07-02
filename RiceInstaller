@@ -276,7 +276,7 @@ HOMEPAGE_PATH="file://$HOME/.local/share/startup-page/index.html"
 FIREFOX_PROFILE_DIR=$(find "$HOME/.mozilla/firefox" -maxdepth 1 -type d -name "*.default-release" | head -n 1)
 
 if [ -z "$FIREFOX_PROFILE_DIR" ]; then
-    echo "No Firefox profile found. Skipped Firefox Home page rice."
+    echo "No Firefox profile found. Skipped Firefox Home page rice.\n\nWARNING: The firefox rice may have not have been done at all, check your browser once RiceInstall is finished!"
     exit 1
 fi
 
